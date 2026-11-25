@@ -20,11 +20,11 @@ var MODELO = 'sabia-4-thinking';
 var TEMPO_MAX_IA_MS = 75000; // Render gratuito pode demorar a "acordar"
 
 var PERSONAGENS = {
-  professor: { nome: 'Professor', cor: '#0284C7', voz: { pitch: 0.8, rate: 0.95 } },
-  curioso:   { nome: 'Curioso',   cor: '#ec4899', voz: { pitch: 1.4, rate: 1.1 } },
-  anotador:  { nome: 'Anotador',  cor: '#06b6d4', voz: { pitch: 1.1, rate: 1.0 } },
-  pensador:  { nome: 'Pensador',  cor: '#f59e0b', voz: { pitch: 0.9, rate: 0.9 } },
-  voce:      { nome: 'Você',      cor: '#84CC16', voz: { pitch: 1.1, rate: 1.0 } },
+  professor: { nome: 'Professor', cor: '#0284C7', voz: { pitch: 1.0, rate: 0.92 } },
+  curioso:   { nome: 'Curioso',   cor: '#ec4899', voz: { pitch: 1.15, rate: 1.0 } },
+  anotador:  { nome: 'Anotador',  cor: '#06b6d4', voz: { pitch: 1.05, rate: 0.98 } },
+  pensador:  { nome: 'Pensador',  cor: '#f59e0b', voz: { pitch: 0.95, rate: 0.92 } },
+  voce:      { nome: 'Você',      cor: '#84CC16', voz: { pitch: 1.05, rate: 1.0 } },
 };
 
 // Exemplo da biblioteca gratuita: "Misturas homogêneas e heterogêneas no
@@ -95,12 +95,47 @@ function vozPara(personagem) {
   var ordem = ['professor', 'curioso', 'anotador', 'pensador'];
   var base = ordem.indexOf(personagem);
   if (base < 0) base = 0;
-  // Prefere vozes com nome brasileiro conhecido para o professor.
-  if (personagem === 'professor') {
-    var pref = lista.filter(function (v) { return /google.*português|maria|luciana|daniel/i.test(v.name || ''); });
-    if (pref.length) return pref[0];
-  }
-  return lista[base % lista.length];
+  // Prefere vozes naturais/neural (ex.: "Google português do Brasil",
+  // "Microsoft Maria Online (Natural)") — são as que soam menos robóticas.
+  // Se não houver, cai para as brasileiras conhecidas.
+  var naturais = lista.filter(function (v) { return /natural|neural/i.test(v.name || ''); });
+  var conhecidas = lista.filter(function (v) { return /google.*português|maria|luciana|daniel/i.test(v.name || ''); });
+  var pool = naturais.length ? naturais : (conhecidas.length ? conhecidas : lista);
+  // Distribui vozes diferentes por personagem quando houver mais de uma.
+  return pool[base % pool.length];
+}
+// Divide a fala em frases e fala uma de cada vez, com uma pausa curta
+// entre elas — é o que mais aproxima a voz de uma fala natural (uma frase
+// longa de uma vez soa mecanizada).
+function dividirEmFrases(texto) {
+  var partes = String(texto || '').match(/[^.!?…;]+[.!?…;]+["”)]?\s*|[^.!?…;]+$/g) || [];
+  return partes.map(function (p) { return p.trim(); }).filter(function (p) { return p; });
+}
+function falarEmPartes(texto, quem, aoTerminar) {
+  var partes = dividirEmFrases(texto);
+  if (!partes.length) { aoTerminar(); return; }
+  var p = PERSONAGENS[quem] || PERSONAGENS.professor;
+  var voz = vozPara(quem);
+  var i = 0;
+  var falarProxima = function () {
+    if (!estado || !estado.rodando) { aoTerminar(); return; }
+    if (i >= partes.length) { aoTerminar(); return; }
+    var u = new SpeechSynthesisUtterance(partes[i]);
+    i++;
+    u.lang = 'pt-BR';
+    u.pitch = (p.voz && p.voz.pitch) || 1;
+    u.rate = (p.voz && p.voz.rate) || 1;
+    if (voz) u.voice = voz;
+    u.onend = function () {
+      // Pausa de respiração entre frases (maior depois de ponto final).
+      var pausa = /[.!?…]\s*$/.test(partes[i - 1]) ? 550 : 350;
+      estado.timerFala = setTimeout(falarProxima, pausa);
+    };
+    u.onerror = function () { estado.timerFala = setTimeout(falarProxima, 200); };
+    try { window.speechSynthesis.speak(u); }
+    catch (e) { estado.timerFala = setTimeout(falarProxima, 200); }
+  };
+  falarProxima();
 }
 function duracaoEstimadaMs(texto) {
   var palavras = String(texto || '').split(/\s+/).filter(function (s) { return s; }).length;
@@ -131,17 +166,17 @@ function desenharLousa() {
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.strokeStyle = 'rgba(255,255,255,0.06)';
   ctx.lineWidth = 1;
-  for (var y = 56; y < c.height; y += 56) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
-  ctx.font = '20px "Comic Sans MS", "Segoe Print", cursive';
+  for (var y = 44; y < c.height; y += 44) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke(); }
+  ctx.font = '32px "Comic Sans MS", "Segoe Print", cursive';
   ctx.textBaseline = 'top';
-  var yy = 18;
+  var yy = 20;
   lousaLinhas.forEach(function (linha) {
     ctx.fillStyle = linha.cor;
-    var partes = quebrarTextoLousa(ctx, linha.texto.slice(0, linha.escrito), c.width - 32);
+    var partes = quebrarTextoLousa(ctx, linha.texto.slice(0, linha.escrito), c.width - 40);
     partes.forEach(function (p) {
-      if (yy > c.height - 24) return;
-      ctx.fillText(p, 16, yy);
-      yy += 28;
+      if (yy > c.height - 44) return;
+      ctx.fillText(p, 20, yy);
+      yy += 44;
     });
   });
 }
@@ -167,13 +202,13 @@ function escreverNaLousa(texto, cor, duracaoMs) {
   var c = $('lousa');
   if (c) {
     var ctx = c.getContext('2d');
-    ctx.font = '20px "Comic Sans MS", "Segoe Print", cursive';
+    ctx.font = '32px "Comic Sans MS", "Segoe Print", cursive';
     var altura = function () {
       var total = 0;
-      lousaLinhas.forEach(function (l) { total += quebrarTextoLousa(ctx, l.texto, c.width - 32).length * 28; });
+      lousaLinhas.forEach(function (l) { total += quebrarTextoLousa(ctx, l.texto, c.width - 40).length * 44; });
       return total;
     };
-    while (lousaLinhas.length > 1 && altura() > c.height - 24) lousaLinhas.shift();
+    while (lousaLinhas.length > 1 && altura() > c.height - 20) lousaLinhas.shift();
   }
   desenharLousa();
   var total = linha.texto.length;
@@ -483,17 +518,8 @@ function falar(quem, texto, opts) {
       return;
     }
     try {
-      var u = new SpeechSynthesisUtterance(texto);
-      var p = PERSONAGENS[quem] || PERSONAGENS.professor;
-      u.lang = 'pt-BR';
-      u.pitch = (p.voz && p.voz.pitch) || 1;
-      u.rate = (p.voz && p.voz.rate) || 1;
-      var voz = vozPara(quem);
-      if (voz) u.voice = voz;
-      u.onend = avancar;
-      u.onerror = avancar;
-      window.speechSynthesis.speak(u);
-      estado.timerFala = setTimeout(avancar, (duracao + 6000) * fatorTempoTeste);
+      falarEmPartes(texto, quem, avancar);
+      estado.timerFala = setTimeout(avancar, (duracao + 12000) * fatorTempoTeste);
     } catch (e) {
       estado.timerFala = setTimeout(avancar, duracao * fatorTempoTeste);
     }
