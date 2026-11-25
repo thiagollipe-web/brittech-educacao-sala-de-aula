@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversar por turnos — Sala de Aula Online — Brittech Educação</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="conversa.css">
+<link rel="stylesheet" href="conversa-turnos.css">
+</head>
+<body>
+
+<!-- ===================== TELA DE ENTRADA ===================== -->
+<main id="tela-entrada" class="entrada">
+  <header class="entrada-topo">
+    <img src="brito-saudacao.svg" alt="Brito, mascote da Brittech Educação, acenando" class="brito-logo">
+    <div>
+      <h1>Conversar por turnos</h1>
+      <p class="subtitulo">Sala de Aula Online — converse com o professor por voz, com vozes neurais brasileiras. Grátis, quase sem custo.</p>
+    </div>
+  </header>
+
+  <section class="entrada-form" aria-label="Montar sua conversa">
+    <label for="aluno-nome">Seu nome <span class="opcional">(opcional)</span></label>
+    <input id="aluno-nome" type="text" placeholder="Ex.: Ana" autocomplete="name" maxlength="40">
+
+    <label for="aula-tema">Tema da aula</label>
+    <input id="aula-tema" type="text" placeholder="Ex.: Misturas homogêneas e heterogêneas" maxlength="200">
+
+    <label for="aula-texto">Conteúdo da aula ou da apostila <span class="opcional">(opcional — cole aqui o texto)</span></label>
+    <textarea id="aula-texto" rows="5" placeholder="Cole o texto da aula, da apostila ou do livro. O professor usa SÓ esse conteúdo e o tema — nada é inventado fora dele."></textarea>
+
+    <div class="entrada-botoes">
+      <button id="btn-exemplo" type="button" class="btn btn-secundario">Carregar aula de exemplo</button>
+      <button id="btn-entrar" type="button" class="btn btn-grande">🎙 Entrar na conversa</button>
+    </div>
+    <p id="entrada-exemplo-info" class="exemplo-info" hidden>Aula de exemplo carregada: <strong>Misturas homogêneas e heterogêneas</strong> (Ciências, 6º ano — EF06CI01: água e sal, água e óleo, água e areia). Edite o tema ou o texto se quiser.</p>
+    <p id="entrada-erro" class="erro" hidden></p>
+    <p id="entrada-status" class="status" hidden></p>
+  </section>
+
+  <section class="entrada-como">
+    <h2>Como funciona</h2>
+    <ol>
+      <li>Você aperta <strong>Falar</strong> e fala — o celular transforma sua voz em texto, de graça.</li>
+      <li>O professor responde por voz, com voz neural brasileira, e escreve os pontos-chave na lousa.</li>
+      <li>Os colegas <strong>Curioso</strong>, <strong>Anotador</strong> e <strong>Pensador</strong> entram na conversa de vez em quando, cada um com a sua voz.</li>
+      <li>Se preferir, escreva em vez de falar — o campo de texto está sempre na tela.</li>
+    </ol>
+    <p class="nota-ia">Por turnos: cada um fala na sua vez (não dá para interromper no meio da frase, como numa ligação — essa é a diferença para a versão ao vivo). As vozes são neurais brasileiras (Microsoft Edge TTS, grátis) e a inteligência é a Maritaca — uma conversa de 20 trocas custa centavos. Se a voz neural falhar, a fala sai com a voz do aparelho e a tela avisa.</p>
+    <p><a href="index.html">← Voltar para a aula com roteiro</a> · <a href="conversa.html">Conversar ao vivo (ligação de verdade)</a></p>
+  </section>
+</main>
+
+<!-- ===================== SALA DE CONVERSA ===================== -->
+<main id="tela-aula" class="aula" hidden>
+  <header class="aula-topo">
+    <div class="aula-titulo">
+      <img src="brito-saudacao.svg" alt="" class="brito-mini" aria-hidden="true">
+      <div>
+        <h1 id="aula-tema-titulo">Conversar por turnos</h1>
+        <p id="aula-fase" class="fase">Sua vez — aperte Falar ou escreva</p>
+      </div>
+    </div>
+    <div class="aula-topo-direita">
+      <span id="badge-neural" class="badge badge-neural" title="Vozes neurais brasileiras (Edge TTS)">Voz neural</span>
+      <span id="badge-aparelho" class="badge badge-aparelho" hidden title="A voz neural falhou e a fala saiu com a voz do aparelho">Voz do aparelho</span>
+      <span id="badge-demo" class="badge badge-demo" hidden>Modo demonstração, sem IA real</span>
+    </div>
+  </header>
+
+  <div class="sessao-barra" role="status">
+    <span>⏱ <span id="sessao-tempo" class="tempo">00:00</span></span>
+    <span id="sessao-trocas" class="trocas">0 trocas</span>
+    <span id="sessao-custo" class="custo">≈ R$ 0,00</span>
+    <span id="sessao-status">Sua vez — aperte Falar ou escreva.</span>
+  </div>
+
+  <div class="palco">
+    <!-- Slide + lousa -->
+    <section class="area-apresentacao" aria-label="Slide e lousa">
+      <div class="slide" id="slide">
+        <p class="slide-kicker" id="slide-kicker">Brittech Educação — conversa por turnos</p>
+        <h2 id="slide-titulo">O professor está ouvindo você</h2>
+        <ul id="slide-linhas">
+          <li>Aperte <strong>Falar</strong> e fale naturalmente — ou escreva no campo abaixo.</li>
+          <li>Pergunte o que não entendeu; o professor explica de novo, de outro jeito.</li>
+          <li>Os pontos principais da conversa aparecem na lousa abaixo.</li>
+        </ul>
+      </div>
+      <div class="lousa-wrap">
+        <div class="lousa-topo">
+          <span>Lousa — pontos da conversa</span>
+          <button id="btn-limpar-lousa" type="button" class="btn-mini">Limpar lousa</button>
+        </div>
+        <canvas id="lousa" width="900" height="240" aria-label="Lousa da conversa, com os pontos-chave falados pelo professor"></canvas>
+      </div>
+    </section>
+
+    <!-- Participantes -->
+    <aside class="participantes" aria-label="Participantes da conversa">
+      <div class="participante professor" data-quem="professor" id="tile-professor">
+        <div class="video-sim" style="--cor:#0284C7">
+          <span class="avatar-inicial">Pr</span>
+          <span class="selo-falando" hidden>falando…</span>
+        </div>
+        <p class="part-nome">Professor</p>
+        <p class="part-status" data-status>ouvindo</p>
+      </div>
+      <div class="participante" data-quem="curioso" id="tile-curioso">
+        <div class="video-sim" style="--cor:#ec4899">
+          <span class="avatar-inicial">Cu</span>
+          <span class="selo-falando" hidden>falando…</span>
+        </div>
+        <p class="part-nome">Curioso</p>
+        <p class="part-status" data-status>ouvindo</p>
+      </div>
+      <div class="participante" data-quem="anotador" id="tile-anotador">
+        <div class="video-sim" style="--cor:#06b6d4">
+          <span class="avatar-inicial">An</span>
+          <span class="selo-falando" hidden>falando…</span>
+        </div>
+        <p class="part-nome">Anotador</p>
+        <p class="part-status" data-status>ouvindo</p>
+      </div>
+      <div class="participante" data-quem="pensador" id="tile-pensador">
+        <div class="video-sim" style="--cor:#f59e0b">
+          <span class="avatar-inicial">Pe</span>
+          <span class="selo-falando" hidden>falando…</span>
+        </div>
+        <p class="part-nome">Pensador</p>
+        <p class="part-status" data-status>ouvindo</p>
+      </div>
+      <div class="participante voce" data-quem="voce" id="tile-voce">
+        <div class="video-sim" style="--cor:#84CC16">
+          <span class="avatar-inicial" id="voce-inicial">Você</span>
+          <span class="selo-falando" hidden>falando…</span>
+        </div>
+        <p class="part-nome" id="voce-nome">Você</p>
+        <p class="part-status" data-status>ouvindo</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Legenda da fala atual -->
+  <p id="legenda" class="legenda" aria-live="polite"></p>
+
+  <!-- Transcrição da conversa -->
+  <section class="transcricao" id="transcricao" aria-label="Transcrição da conversa"></section>
+
+  <!-- Resumo / encerramento -->
+  <section id="painel-resumo" class="painel-resumo painel-resumo-conversa" hidden>
+    <h2>Conversa encerrada!</h2>
+    <p id="resumo-nota" class="resumo-nota"></p>
+    <p id="resumo-custo" class="custo-final"></p>
+    <pre id="resumo-texto" class="resumo-texto"></pre>
+    <div class="resumo-botoes">
+      <button id="btn-copiar-resumo" type="button" class="btn btn-secundario">Copiar resumo</button>
+      <button id="btn-nova-conversa" type="button" class="btn btn-primario">Nova conversa</button>
+    </div>
+  </section>
+
+  <!-- Falar / escrever -->
+  <section class="falar-area" aria-label="Falar ou escrever">
+    <button id="btn-falar" type="button" class="btn-falar" aria-pressed="false">🎙 Falar</button>
+    <div class="escrever-linha">
+      <input id="aluno-texto" type="text" placeholder="Ou escreva aqui o que você quer perguntar…" maxlength="300" autocomplete="off">
+      <button id="btn-enviar-texto" type="button" class="btn btn-primario">Enviar</button>
+    </div>
+    <p id="falar-aviso" class="falar-aviso" hidden></p>
+  </section>
+
+  <!-- Controles -->
+  <footer class="controles">
+    <button id="btn-parar" type="button" class="btn-controle">⏹ Parar fala</button>
+    <button id="btn-mudo" type="button" class="btn-controle" aria-pressed="false">🔊 Som ligado</button>
+    <button id="btn-tela-cheia" type="button" class="btn-controle">⛶ Tela cheia</button>
+    <button id="btn-sair" type="button" class="btn-controle btn-sair">Encerrar conversa</button>
+  </footer>
+</main>
+
+<script src="conversa-turnos.js"></script>
+</body>
+</html>
