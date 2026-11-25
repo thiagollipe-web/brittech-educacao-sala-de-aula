@@ -1,0 +1,210 @@
+/* Sala de Aula Online — Brittech Educação
+   Paleta: azul-marinho #0A2540, ciano #0284C7, lima #84CC16. pt-BR.
+   Site estático, sem dependências externas. */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f1f5f9;
+  color: #0A2540;
+  line-height: 1.5;
+}
+button { font: inherit; cursor: pointer; }
+input, textarea { font: inherit; }
+[hidden] { display: none !important; }
+
+/* ------------------------- Entrada ------------------------- */
+.entrada { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+.entrada-topo { display: flex; gap: 16px; align-items: center; margin-bottom: 8px; }
+.brito-logo { width: 96px; height: auto; flex: none; }
+.entrada-topo h1 { margin: 0; font-size: 1.9rem; color: #0A2540; }
+.subtitulo { margin: 4px 0 0; color: #475569; }
+.entrada-form {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+  padding: 20px; margin-top: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.entrada-form label { font-weight: 600; margin-top: 8px; }
+.opcional { font-weight: 400; color: #64748b; font-size: .9em; }
+.entrada-form input, .entrada-form textarea {
+  border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 12px;
+  width: 100%; background: #fff; color: #0A2540;
+}
+.entrada-form input:focus, .entrada-form textarea:focus {
+  outline: 2px solid #0284C7; outline-offset: 1px; border-color: #0284C7;
+}
+.entrada-botoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.btn {
+  border: none; border-radius: 12px; padding: 12px 20px; font-weight: 700;
+}
+.btn-grande { background: #0284C7; color: #fff; font-size: 1.15rem; padding: 14px 28px; flex: 1 1 220px; }
+.btn-grande:hover { background: #0369a1; }
+.btn-grande:disabled { background: #94a3b8; cursor: wait; }
+.btn-primario { background: #0284C7; color: #fff; }
+.btn-primario:hover { background: #0369a1; }
+.btn-secundario { background: #e0f2fe; color: #0A2540; border: 1px solid #bae6fd; }
+.btn-secundario:hover { background: #bae6fd; }
+.exemplo-info { background: #f7fee7; border: 1px solid #d9f99d; border-radius: 10px; padding: 10px 12px; margin: 12px 0 0; }
+.erro { color: #b91c1c; background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 12px; margin: 12px 0 0; }
+.status { color: #0A2540; background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 12px; margin: 12px 0 0; }
+.entrada-como { margin-top: 24px; }
+.entrada-como h2 { font-size: 1.2rem; margin-bottom: 8px; }
+.entrada-como ol { padding-left: 22px; }
+.entrada-como li { margin-bottom: 6px; }
+.nota-ia { color: #475569; font-size: .95rem; }
+
+/* ------------------------- Sala de aula ------------------------- */
+.aula {
+  min-height: 100vh; background: #0A2540; color: #f8fafc;
+  display: flex; flex-direction: column;
+}
+.aula-topo {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 10px 16px; background: #081c30; border-bottom: 1px solid #1e3a5f; flex-wrap: wrap;
+}
+.aula-titulo { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brito-mini { width: 44px; height: auto; flex: none; }
+.aula-titulo h1 { font-size: 1.15rem; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fase { margin: 0; color: #7dd3fc; font-size: .9rem; }
+.aula-topo-direita { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badge { border-radius: 999px; padding: 4px 12px; font-size: .85rem; font-weight: 700; }
+.badge-demo { background: #fef3c7; color: #92400e; }
+.badge-ia { background: #dcfce7; color: #166534; }
+.progresso { color: #94a3b8; font-size: .9rem; }
+
+.palco {
+  flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 12px;
+  padding: 12px 16px; min-height: 0;
+}
+.area-apresentacao { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.slide {
+  background: #fff; color: #0A2540; border-radius: 16px; padding: 20px 24px;
+  min-height: 220px; flex: 1; box-shadow: 0 4px 24px rgba(0,0,0,.35);
+}
+.slide-kicker { margin: 0 0 4px; color: #0284C7; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .8rem; }
+.slide h2 { margin: 0 0 12px; font-size: 1.6rem; line-height: 1.25; }
+.slide ul { margin: 0; padding-left: 22px; }
+.slide li { margin-bottom: 10px; font-size: 1.08rem; }
+.slide li::marker { color: #84CC16; }
+.lousa-wrap { background: #14532d; border: 6px solid #78350f; border-radius: 12px; overflow: hidden; }
+.lousa-topo {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 12px; color: #bbf7d0; font-size: .85rem; font-weight: 700;
+}
+.btn-mini {
+  background: transparent; color: #bbf7d0; border: 1px solid #4ade80;
+  border-radius: 999px; padding: 2px 10px; font-size: .8rem;
+}
+.btn-mini:hover { background: rgba(255,255,255,.12); }
+#lousa { display: block; width: 100%; height: 180px; }
+
+/* Participantes */
+.participantes { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.participante { background: #12365e; border-radius: 12px; padding: 8px; border: 2px solid transparent; transition: border-color .2s, transform .2s; }
+.participante.falando { border-color: #84CC16; transform: scale(1.02); box-shadow: 0 0 0 3px rgba(132,204,22,.35); }
+.participante.em-espera { opacity: .75; }
+.video-sim {
+  position: relative; border-radius: 8px; min-height: 64px;
+  background: linear-gradient(135deg, var(--cor, #0284C7), #0A2540);
+  display: flex; align-items: center; justify-content: center;
+}
+.video-sim.camera-off { background: #1e293b; }
+.video-sim.camera-off .avatar-inicial { display: none; }
+.video-sim .camera-off-msg { display: none; color: #94a3b8; font-size: .85rem; padding: 8px; text-align: center; }
+.video-sim.camera-off .camera-off-msg { display: block; }
+.avatar-inicial {
+  width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,.92);
+  color: #0A2540; font-weight: 800; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.participante.professor .avatar-inicial { width: 68px; height: 68px; font-size: 1.35rem; }
+.participante.professor .video-sim { min-height: 96px; }
+.selo-falando {
+  position: absolute; left: 6px; bottom: 6px; background: #84CC16; color: #0A2540;
+  font-size: .75rem; font-weight: 700; border-radius: 999px; padding: 2px 8px;
+}
+.selo-mao {
+  position: absolute; right: 6px; top: 6px; background: #facc15; color: #422006;
+  font-size: .75rem; font-weight: 700; border-radius: 999px; padding: 2px 8px;
+}
+.part-nome { margin: 6px 0 0; font-weight: 700; font-size: .95rem; }
+.part-papel { font-weight: 400; color: #7dd3fc; font-size: .85rem; }
+.part-status { margin: 0; color: #94a3b8; font-size: .82rem; }
+
+/* Legenda */
+.legenda {
+  margin: 0 16px; padding: 10px 16px; min-height: 48px;
+  background: rgba(0,0,0,.45); border-radius: 10px; text-align: center;
+  font-size: 1.08rem; color: #fff;
+}
+.legenda .quem { color: #a3e635; font-weight: 700; }
+
+/* Painéis de interação / quiz / resumo */
+.painel-interacao, .painel-quiz, .painel-resumo {
+  margin: 12px 16px 0; background: #fff; color: #0A2540; border-radius: 14px; padding: 16px 20px;
+}
+.painel-interacao h2, .painel-quiz h2, .painel-resumo h2 { margin: 0 0 10px; font-size: 1.25rem; }
+.painel-interacao label { display: block; font-weight: 600; margin-top: 12px; }
+.opcoes { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.opcoes .btn-opcao {
+  text-align: left; background: #f1f5f9; border: 1px solid #cbd5e1; color: #0A2540;
+  border-radius: 10px; padding: 10px 14px; font-weight: 600;
+}
+.opcoes .btn-opcao:hover:not(:disabled) { border-color: #0284C7; background: #e0f2fe; }
+.opcoes .btn-opcao:disabled { cursor: default; opacity: .85; }
+.opcoes .btn-opcao.certa { background: #dcfce7; border-color: #22c55e; }
+.opcoes .btn-opcao.errada { background: #fee2e2; border-color: #ef4444; }
+.resposta-livre-linha { display: flex; gap: 8px; margin-top: 6px; }
+.resposta-livre-linha input {
+  flex: 1; min-width: 0; border: 1px solid #cbd5e1; border-radius: 10px; padding: 10px 12px;
+}
+.retorno {
+  margin: 12px 0 0; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+  padding: 10px 12px;
+}
+.quiz-pergunta { font-size: 1.1rem; font-weight: 600; }
+.resumo-nota { font-weight: 700; font-size: 1.1rem; }
+.resumo-texto {
+  white-space: pre-wrap; font: inherit; background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 10px; padding: 12px; margin: 10px 0;
+}
+.resumo-botoes { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Controles */
+.controles {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+  padding: 14px 16px 18px;
+}
+.btn-controle {
+  background: #12365e; color: #f8fafc; border: 1px solid #1e3a5f;
+  border-radius: 999px; padding: 10px 16px; font-weight: 600;
+}
+.btn-controle:hover { background: #1b4a7d; }
+.btn-controle[aria-pressed="true"] { background: #0284C7; border-color: #0284C7; }
+.btn-controle.btn-sair { background: #7f1d1d; border-color: #991b1b; }
+.btn-controle.btn-sair:hover { background: #991b1b; }
+.aviso-voz { margin: 0 16px 16px; color: #fde68a; font-size: .9rem; text-align: center; }
+
+/* ------------------------- Responsivo ------------------------- */
+@media (max-width: 760px) {
+  .palco { grid-template-columns: minmax(0, 1fr); }
+  .participantes {
+    flex-direction: row; overflow-x: auto; padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+  }
+  .participante { flex: 0 0 132px; scroll-snap-align: start; }
+  .participante.professor { flex-basis: 160px; }
+  .slide { min-height: 180px; padding: 16px; }
+  .slide h2 { font-size: 1.3rem; }
+  .slide li { font-size: 1rem; }
+  #lousa { height: 140px; }
+  .aula-titulo h1 { font-size: 1rem; }
+  .entrada-topo h1 { font-size: 1.5rem; }
+  .brito-logo { width: 72px; }
+  .resposta-livre-linha { flex-direction: column; }
+  .legenda { font-size: 1rem; }
+}
+@media (min-width: 1100px) {
+  .palco { grid-template-columns: minmax(0, 1fr) 260px; }
+  .slide h2 { font-size: 1.9rem; }
+}

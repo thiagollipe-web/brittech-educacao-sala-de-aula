@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Brito, mascote do Brittech Educação — saudação">
+  <ellipse cx="256" cy="462" rx="122" ry="18" fill="#0A2540" opacity="0.12"/>
+  <!-- pernas e sapatos -->
+  <rect x="222" y="378" width="22" height="56" rx="10" fill="#0A2540"/>
+  <rect x="268" y="378" width="22" height="56" rx="10" fill="#0A2540"/>
+  <ellipse cx="232" cy="440" rx="27" ry="13" fill="#84CC16" stroke="#0A2540" stroke-width="4"/>
+  <ellipse cx="280" cy="440" rx="27" ry="13" fill="#84CC16" stroke="#0A2540" stroke-width="4"/>
+  <!-- braços -->
+  <line x1="188" y1="300" x2="152" y2="352" stroke="#0A2540" stroke-width="14" stroke-linecap="round"/><circle cx="148" cy="358" r="16" fill="#FFFFFF" stroke="#0A2540" stroke-width="5"/><line x1="324" y1="300" x2="366" y2="222" stroke="#0A2540" stroke-width="14" stroke-linecap="round"/><circle cx="370" cy="214" r="16" fill="#FFFFFF" stroke="#0A2540" stroke-width="5"/>
+  <!-- corpo de giz -->
+  <rect x="176" y="168" width="160" height="222" rx="76" fill="#FFFFFF" stroke="#0A2540" stroke-width="6"/>
+  <ellipse cx="256" cy="322" rx="58" ry="48" fill="#E6F4FB"/>
+  <!-- capelo de formatura -->
+  <rect x="208" y="176" width="96" height="30" rx="12" fill="#0A2540"/>
+  <polygon points="256,92 374,150 256,208 138,150" fill="#0A2540"/>
+  <line x1="374" y1="150" x2="374" y2="202" stroke="#84CC16" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="374" cy="212" r="11" fill="#84CC16" stroke="#0A2540" stroke-width="4"/>
+  <!-- rosto -->
+  <circle cx="226" cy="255" r="19" fill="none" stroke="#0284C7" stroke-width="5"/>
+  <circle cx="286" cy="255" r="19" fill="none" stroke="#0284C7" stroke-width="5"/>
+  <line x1="245" y1="255" x2="267" y2="255" stroke="#0284C7" stroke-width="5"/>
+  <circle cx="226" cy="256" r="15" fill="#FFFFFF"/><circle cx="286" cy="256" r="15" fill="#FFFFFF"/><circle cx="229" cy="258" r="6.5" fill="#0A2540"/><circle cx="289" cy="258" r="6.5" fill="#0A2540"/><circle cx="231" cy="256" r="2" fill="#FFFFFF"/><circle cx="291" cy="256" r="2" fill="#FFFFFF"/>
+  <circle cx="198" cy="292" r="10" fill="#F9A8D4" opacity="0.75"/>
+  <circle cx="314" cy="292" r="10" fill="#F9A8D4" opacity="0.75"/>
+  <path d="M236 296 Q256 312 276 296" fill="none" stroke="#0A2540" stroke-width="6" stroke-linecap="round"/>
+  <g><rect x="392" y="60" width="96" height="52" rx="16" fill="#FFFFFF" stroke="#0A2540" stroke-width="4"/><polygon points="400,108 414,108 402,128" fill="#FFFFFF" stroke="#0A2540" stroke-width="4"/><text x="440" y="95" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#0A2540" text-anchor="middle">Olá!</text></g>
+</svg>
