@@ -14,7 +14,7 @@
 
 'use strict';
 
-var PROXY_URL = 'https://brittech-proxy.onrender.com';
+var PROXY_URL = 'https://brittech-proxy.duckdns.org';
 var PROVEDOR = 'maritaca';
 var MODELO = 'sabia-4-thinking';
 var TEMPO_MAX_IA_MS = 75000; // Render gratuito pode demorar a "acordar"

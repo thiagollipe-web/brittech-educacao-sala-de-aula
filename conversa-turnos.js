@@ -29,7 +29,7 @@
 
 'use strict';
 
-var PROXY_URL = 'https://brittech-proxy.onrender.com';
+var PROXY_URL = 'https://brittech-proxy.duckdns.org';
 var EXEMPLO_TEMA = 'Misturas homogêneas e heterogêneas';
 var EXEMPLO_TEXTO = 'Uma mistura é a junção de dois ou mais materiais. Quando não conseguimos distinguir os componentes da mistura, como na água com sal dissolvido, a mistura é homogênea. Quando conseguimos ver os componentes separados, como na água com óleo ou na água com areia, a mistura é heterogênea. No dia a dia encontramos misturas em muitos lugares: o suco, o ar que respiramos e a salada são exemplos de misturas. Para classificar uma mistura, observamos se dá para ver os componentes separados ou se eles formam uma coisa só.';
 // Maritaca: ~R$ 0,13 por ~2.500 tokens (um plano longo). Estimativa da
